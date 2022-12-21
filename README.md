@@ -7,8 +7,8 @@ This repository contain some python programs that I built on my local machine bu
 1. Install git!
 2. Clone the repository
 ```
-git clone  https://github.com/SamAddy/Python-programs.git```
-
+git clone  https://github.com/SamAddy/Python-programs.git
+```
 3. enter the working directory
 ```
 cd Python-programs
