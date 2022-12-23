@@ -1,5 +1,5 @@
 # Python-programs
-This repository contain some python programs that I built on my local machine but just decided to push them just incase and one needs.
+This repository contains some python programs that I built on my local machine but just decided to push them just incase any one needs.
 
 ### Would like to contribute?  git quick guide
 <b>First time ever?</b>
