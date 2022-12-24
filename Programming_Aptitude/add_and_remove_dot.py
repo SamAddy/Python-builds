@@ -1,10 +1,17 @@
+"""
+Write a function named add_dots that takes a string and adds "." in between each letter. For example, calling add_dots("test") should return the string "t.e.s.t".
+"""
 
 def add_dots(string):
-    results = ""
-    for i in range(len(string)):
-        results.append(string[i] + ".")
-
-    return results
+    # Joining with "." 
+    return ".".join(string)
 
 
-print(add_dots("test"))
+def remove_dots(string):
+    # replace all instances of "." with ""
+    return string.replace(".", "")
+
+
+string = "Python"
+print(add_dots(string))
+print(remove_dots(add_dots(string)))
