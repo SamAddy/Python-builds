@@ -29,9 +29,11 @@ Should return:
 
 def zap(a, b):
     results = []
-    for i in len(a):
-        for j in b:
-            results.append((i, j))
+    # for loop to iterate through elements in a
+    for i in range(len(a)):
+        item_a = a[i]
+        item_b = b[i]
+        results.append((item_a, item_b))
 
     return results
 
