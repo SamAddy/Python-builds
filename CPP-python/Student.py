@@ -31,7 +31,7 @@ class Student:
         try:
             if m >= 2.0 and m <= 5.0:
                 self.marks.append(m)
-        except:
+        except ValueError:
             print("Marks should be between 2.0 and 5.0")
 
     def getMarkCount(self):

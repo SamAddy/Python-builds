@@ -14,7 +14,6 @@ import re
 def codel_and_username_validation(strParam):
     # code goes here
     pattern = "^[A-Za-z0-9_]*$"
-    ending = "[A-Za-z0-9]*$"
     passed = False
 
     for i in range(len(strParam)):

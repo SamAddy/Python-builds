@@ -118,7 +118,7 @@ class Store:
 
     def removeBox(self, label):
         for i, box in enumerate(self.boxes):
-            if box.getTextLabel() == label:
+            if Box.getTextLabel() == label:
                 self.boxes.pop(i)
                 return
         raise NameError("Box not found.")
@@ -129,7 +129,7 @@ class Store:
     def getTotalVolume(self):
         totalVolume = 0
         for box in self.boxes:
-            totalVolume += box.getVolume()
+            totalVolume += Box.getVolume()
 
         return totalVolume
 
@@ -137,7 +137,7 @@ class Store:
     def __getitem__(self, index):
         try:
             return self.boxes[index]
-        except:
+        except IndexError:
             raise IndexError("Index out of range.")
 
     
