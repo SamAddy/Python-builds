@@ -70,6 +70,20 @@
 #                              /*fill in*/
 #
 # };
+import time
+
+
+start_time = time.time()
+
+
+class Note:
+    """
+    This class serves as a note which takes in three parameters
+    """
+    def __init__(self, title, tags, text):
+        self.title = title
+        self.tags = tags
+        self.text = text
 
 
 class Storyboard:
@@ -81,6 +95,7 @@ class Storyboard:
      search_by_filter
      search_by_title
      search_by_tag
+     delete_note_by_title
 
     """
 
@@ -96,7 +111,8 @@ class Storyboard:
         tags - possible tags for the note
         text - content of the note
         """
-        self.notes.append({"title": title, "tags": tags, "text": text})
+        note = Note(title, tags, text)
+        self.notes.append(note)
 
     def search_by_title(self, title):
         """
@@ -105,7 +121,7 @@ class Storyboard:
         :param title: title of note
         :return: the note with the provided title
         """
-        return [note for note in self.notes if note["title"] == title]
+        return [note for note in self.notes if note.title == title]
 
     def search_by_tag(self, tags):
         """
@@ -114,11 +130,13 @@ class Storyboard:
         :param tags: possible tags of the note
         :return: the note with the provided tags
         """
-        results = []
-        for note in self.notes:
-            if any(tag in note["tags"] for tag in tags):
-                results.append(note)
-        return result
+        # results = []
+        # for note in self.notes:
+        #     if any(tag in note["tags"] for tag in tags):
+        #         results.append(note)
+        # return result
+
+        return [note for note in self.notes if set(tags).issubset(note.tags)]
 
     def search_by_text(self, text):
         """
@@ -127,10 +145,21 @@ class Storyboard:
         :param text: possible text of the note
         :return: the note with the provided text
         """
-        return [note for note in self.notes if note["text"] == text]
+        return [note for note in self.notes if note.text == text]
 
-    def delete_note(self, title: "", tags: "", text: ""):
-        pass
+    def delete_note_by_title(self, title):
+        """
+        This function searches through the notes for the provided title and deletes the
+        note with the particular title.
+
+        :param title: title of note to be deleted.
+        :return: true or false
+        """
+        for note in self.notes:
+            if self.note.title == title:
+                self.notes.remove(note)
+                return True
+        return False
 
 
 # Making a storyboard for testing
@@ -145,14 +174,33 @@ result = storyboard_.search_by_title("Test Traceplayer")
 assert len(result) == 1
 assert result[0]["title"] == "Test Traceplayer"
 
-
 # Search by tags
-result2 = storyboard_.search_by_tag({"unit test"})
-assert len(result2) == 1
-assert result2[0]["title"] == "Test Traceplayer"
-
+result = storyboard_.search_by_tag({"testing" "unit test"})
+assert len(result) == 1
+assert result[0]["title"] == "Test Traceplayer"
 
 # Search by text
-result3 = storyboard_.search_by_text("Implement a unit test for the class Traceplayer of the spark core framework.")
-assert len(result3) == 1
+result = storyboard_.search_by_text("Implement a unit test for the class Traceplayer of the spark core framework.")
+assert len(result) == 1
 
+end_time = time.time()
+elapsed_time = end_time - start_time
+print(f"Elapsed time: {elapsed_time} seconds")
+
+
+"""
+Reasons
+
+The code is written this way to provide a simple implementation of the Storyboard class that allows adding 
+notes and searching for them by title, text, and tags. The implementation uses a list of dictionaries to store the notes, 
+with each dictionary representing a single note and containing the note's title, text, and tags.
+
+The search_by_title, search_by_tag, and search_by_text methods use list comprehensions to filter the list of 
+notes based on the search criteria. These methods return a list of all notes that match the search criteria.
+
+This implementation strikes a balance between memory usage and performance, as it stores the notes in a simple data 
+structure (a list of dictionaries) that doesn't require a lot of memory, while also providing efficient search methods 
+that can quickly find notes that match the search criteria. The implementation also allows for easy extensibility, 
+as new search methods could be added by simply adding a new method that uses a list comprehension to filter the list of 
+notes based on the new search criteria.
+"""
