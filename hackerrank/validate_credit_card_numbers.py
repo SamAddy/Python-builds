@@ -81,10 +81,10 @@ def is_valid_creditcard(number):
     Explanation:
 
     ^: Asserts the start of the string.
-    (?!.*(\d)(-?\1){3}): Negative lookahead to ensure there are no 4 or more consecutive repeated digits.
+    (?!.*(\\d)(-?\1){3}): Negative lookahead to ensure there are no 4 or more consecutive repeated digits.
     [4-6]: Matches the first digit, which must be 4, 5, or 6.
-    \d{3}: Matches the next three digits.
-    (-?\d{4}){3}: Matches three groups of four digits, each group possibly separated by a hyphen.
+    \\d{3}: Matches the next three digits.
+    (-?\\d{4}){3}: Matches three groups of four digits, each group possibly separated by a hyphen.
     $: Asserts the end of the string
     """
     pattern = r'^(?!.*(\d)(-?\1){3})[4-6]\d{3}(-?\d{4}){3}$'
