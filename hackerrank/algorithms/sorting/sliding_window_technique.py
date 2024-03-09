@@ -127,7 +127,6 @@ def longest_substring_with_at_most_k_distinct_characters(string, k):
     # we repeat till we found the longest.
 
     char_count = {}
-    start = 0
     count = 0
     longest_substring = 0
 
@@ -163,16 +162,21 @@ def find_all_anagrams_in_a_string(string, p):
     s = "cbaebabacd"
     p = "abc"
 
-    The output should be [0, 6], as the substrings with starting indices 0 and 6 in s are anagrams of p ("cba" and "bac").
+    The output should be [0, 6], as the substrings with starting indices 0 and 6 in s are anagrams of p
+    ("cba" and "bac").
     """
     p_len = len(p)
     n = len(string)
+
+    # Initialize list to hold indices
     indices_p = []
 
+    # Store chars and their value count
     p_freq = {}
     for char in p:
         p_freq[char] = p_freq.get(char, 0) + 1
 
+    # Iterate through the string and store their char count
     window_freq = {}
     for i in range(n):
         if i >= p_len:
