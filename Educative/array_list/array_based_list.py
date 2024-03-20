@@ -23,6 +23,25 @@ List elements:
 6
 2
 3
+
+
+solution explanation:
+Solution
+
+The reason why implementing addAll(i, c) by repeated calls to add(i, x) is not efficient is the following:
+
+If we consider an ArrayList as the underlying data structure, the add(i, x) operation has a time complexity of O(n)O(n)
+because it requires shifting all the elements after the insertion point to make room for the new element. It also checks
+and calls the resize() operation that adds one more memory cell and copies the whole existing array on each call to
+add(i,x). Therefore, if we use add(i, x) in a loop to add each element from the collection c, the time complexity would
+be O(n2)O(n2), as we would have to shift elements and copy the whole array multiple times for each insertion.
+
+To design a more efficient implementation for addAll(i, c), we can add the efficiency in the following way: adding all
+needed cells in a single call to the modified resize() and allowing efficient insertion by inserting multiple elements
+at a specific position shifting all affected elements only once.
+
+We have implemented the conventional addAll() as addAll1() and the efficient version as addAll2(). We have also
+implemented the efficient resize2() method to replace the conventional resize() to avoid multiple calls of the same.
 """
 
 from utils import new_array
@@ -67,17 +86,20 @@ class ArrayList(BaseList):
         self.a = b
     # New addAll function
     def addAll2(self, idx, collection):
-        # Write code here
         if idx < 0 or idx > self.n:
             raise IndexError("Index out of bounds")
-        # Resize the list
-        if self.n + len(collection) > len(self.a):
-            self.resize()
-        # Insert each element in collection into the list
+        collectionSize = len(collection)
+        if self.n + collectionSize > len(self.a):
+            self.resize2(self.n + collectionSize)
+
+        for i in range(self.n - idx):
+            self.a[idx + collectionSize + i] = self.a[idx + i]
+
+        currentIndex = idx
         for element in collection:
-            self.a.insert(idx, element)
-            idx += 1
-        self.n += len(collection)
+            self.a[currentIndex] = element
+            currentIndex += 1
+        self.n += collectionSize
 
 if __name__ == "__main__":
     # Creating object
