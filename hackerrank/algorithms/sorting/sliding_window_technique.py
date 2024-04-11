@@ -197,3 +197,53 @@ def find_all_anagrams_in_a_string(string, p):
         # if sorted(sub_string) == sorted(p):
         #     indices_p.append(i)
     return indices_p
+
+
+s = "cbaebabacd"
+p = "abc"
+
+print(find_all_anagrams_in_a_string(s, p))
+
+
+def fraudulent_activity_notfification(expenditure, d):
+    n = len(expenditure)
+    notifications = 0
+    # Count and store
+    expense_freq = {}
+
+    def get_meadian():
+        days = d
+        elem1 = days // 2
+        elem2 = elem1 + 1 if days % 2 == 0 else 0
+        # if days % 2 == 0:
+        #     elem2 = elem1 + 1
+
+        for j, e in enumerate(sorted(expense_freq)):
+            pass
+            # if j = elem1:
+            #     median
+
+    for i in range(n):
+        median = 0
+        if i >= d:
+            median = get_meadian()
+
+            # Update the window slide
+            left_day = i - d
+            if expense_freq[left_day] == 1:
+                del expense_freq[left_day]
+            else:
+                expense_freq[left_day] -= 1
+
+        expense = expenditure[i]
+        expense_freq[expense] = expense_freq.get(expense, 0) + 1
+
+        if expense == median * 2:
+            notifications += 1
+
+    return notifications
+
+
+expenditure = [10, 20, 30, 40, 50]
+d = 3
+print(fraudulent_activity_notfification(expenditure, d))
