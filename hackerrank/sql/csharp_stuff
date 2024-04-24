@@ -1,0 +1,130 @@
+// var names = new List<string> { "Spring", "Ana", "Frida" };
+// names.Add("Mike");
+// names.Add("Bot");
+// names.Add("Sherif");
+// // names.RemoveRange(0, 2)
+// foreach (var name in names)
+// {
+//     Console.WriteLine($"Hello {name.ToUpper()}!");
+// }
+
+// Console.WriteLine(names.Count);
+// var index = names.IndexOf("Test");
+// if (index != -1)
+// {
+//     Console.WriteLine(names[index]);
+// }
+// else
+// {
+//     Console.WriteLine("Spring onion live, you seeing him!");
+// }
+
+var fibonacciNumbers = new List<int> {1, 1};
+
+// var previous = fibonacciNumbers[fibonacciNumbers.Count - 1];
+// var previous2 = fibonacciNumbers[fibonacciNumbers.Count - 2];
+
+// fibonacciNumbers.Add(previous + previous2);
+
+// foreach (var item in fibonacciNumbers)
+// {
+//     Console.WriteLine(item);
+// }
+
+while (fibonacciNumbers.Count() < 20)
+{
+    var previous = fibonacciNumbers[fibonacciNumbers.Count - 1];
+    var previous2 = fibonacciNumbers[fibonacciNumbers.Count - 2];
+
+    fibonacciNumbers.Add(previous + previous2);
+}
+
+Console.WriteLine(fibonacciNumbers[19]);
+foreach (var item in fibonacciNumbers)
+{
+    Console.WriteLine(item);
+}
+
+// printing a stairs
+public static void staircase(int n)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            string spaces = new string(' ', n - i);
+            string line = new string('#', i);
+            Console.WriteLine(spaces + line);
+        }
+    }
+
+public static void miniMaxSum(List<int> arr)
+{
+   int arrayLength = arr.Count;
+   int minValuesSum = arr.Skip(0).Take(arrayLength - 1).Sum();
+   int maxValuesSum = arr.Skip(1).Take(arrayLength).Sum();
+
+   Console.WriteLine($"{minValuesSum} {maxValuesSum}");
+}
+
+public static int priceCheck(List<string> products, List<float> productPrices, List<string> productSold, List<float> soldPrice)
+    {
+        int errors = 0;
+        var productsWithPrice = products.Zip(productPrices).ToDictionary(pair => pair.First, pair => pair.Second);
+
+        for (int i = 0; i < productSold.Count; i++)
+        {
+            if (productsWithPrice.ContainsKey(productSold[i]))
+            {
+                if (productsWithPrice[productSold[i]] != soldPrice[i])
+                {
+                    errors++;
+                }
+            }
+        }
+        return errors;
+    }
+
+ public static int birthdayCakeCandles(List<int> candles)
+    {
+        candles.Sort();
+        int maxValue = candles[candles.Count - 1];
+        return candles.Count(x => x == maxValue);
+    }
+
+ public static string timeConversion(string s)
+    {
+        var hh = s.Substring(0, 2);
+        var amPm = s.Substring(8);
+        var minSecs = s.Substring(2, 6);
+
+        if (amPm == "AM" && hh == "12")
+        {
+            return "00" + minSecs;
+        }
+        else if (amPm == "PM" && hh != "12")
+        {
+            int hour = int.Parse(hh) + 12;
+            return hour.ToString() + minSecs;
+        }
+        else
+        {
+            return s.Substring(0, 8);
+        }
+    }
+
+ public static void miniMaxSum(List<int> arr)
+    {
+        int minValue = arr[0];
+        int maxValue = arr[0];
+        long arrSum = 0;
+
+        foreach (int i in arr)
+        {
+            arrSum += i;
+            if (minValue > i)
+                minValue = i;
+
+            if (maxValue < i)
+                maxValue = i;
+        }
+        Console.WriteLine($"{arrSum - maxValue} {arrSum - minValue}");
+    }

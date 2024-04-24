@@ -1,0 +1,135 @@
+1. Given the CITY and COUNTRY tables, query the sum of the populations of all cities where the CONTINENT is 'Asia'.
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+SELECT SUM(CITY.POPULATION) FROM CITY
+INNER JOIN COUNTRY ON COUNTRY.CODE = CITY.COUNTRYCODE
+WHERE CONTINENT = 'Asia';
+
+2. Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+SELECT CITY.NAME FROM CITY
+INNER JOIN COUNTRY ON COUNTRY.CODE = CITY.COUNTRYCODE
+WHERE COUNTRY.CONTINENT = 'Africa';
+
+
+3. Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) and their respective
+average city populations (CITY.Population) rounded down to the nearest integer.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+SELECT COUNTRY.CONTINENT, FLOOR(AVG(CITY.POPULATION)) AS AVG_POPULATION FROM CITY
+INNER JOIN COUNTRY ON COUNTRY.CODE = CITY.COUNTRYCODE
+GROUP BY COUNTRY.CONTINENT
+ORDER BY AVG_POPULATION;
+
+4. You are given two tables: Students and Grades. Students contains three columns ID, Name and Marks
+Ketty gives Eve a task to generate a report containing three columns: Name, Grade and Mark. Ketty doesn't
+want the NAMES of those students who received a grade lower than 8. The report must be in descending order by grade
+-- i.e. higher grades are entered first. If there is more than one student with the same grade (8-10) assigned to them,
+order those particular students by their name alphabetically. Finally, if the grade is lower than 8, use "NULL" as their
+name and list them by their grades in descending order. If there is more than one student with the same grade (1-7)
+assigned to them, order those particular students by their marks in ascending order.
+
+Write a query to help Eve.
+
+SELECT
+    CASE
+        WHEN Grades.Grade >= 8 THEN Students.Name
+        ELSE NULL
+    END AS Name,
+    Grades.Grade,
+    Students.Marks
+FROM Students
+LEFT JOIN Grades ON Students.Marks BETWEEN Grades.Min_Mark AND Grades.Max_Mark
+ORDER BY Grades.Grade DESC, Students.Name ASC, Students.Marks ASC;
+
+
+5. Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. Order your output in descending order by the total number of challenges in which the hacker earned a full score. If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.
+
+Input Format
+
+The following tables contain contest data:
+
+    Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker.
+
+    Difficulty: The difficult_level is the level of difficulty of the challenge, and score is the score of the challenge for the difficulty level.
+
+    Challenges: The challenge_id is the id of the challenge, the hacker_id is the id of the hacker who created the challenge, and difficulty_level is the level of difficulty of the challenge.
+
+    Submissions: The submission_id is the id of the submission, hacker_id is the id of the hacker who made the submission, challenge_id is the id of the challenge that the submission belongs to, and score is the score of the submission.
+
+SELECT Hackers.hacker_id, Hackers.name FROM Hackers
+JOIN Submissions ON Submissions.hacker_id = Hackers.hacker_id
+JOIN Challenges ON Challenges.challenge_id = Submissions.challenge_id
+INNER JOIN Difficulty ON Difficulty.difficulty_level = Challenges.difficulty_level
+WHERE Submissions.score = Difficulty.score
+GROUP BY Hackers.hacker_id, Hackers.name
+HAVING COUNT(Submissions.challenge_id) > 1
+ORDER BY COUNT(Submissions.challenge_id) DESC, Hackers.hacker_id ASC;
+
+6. Harry Potter and his friends are at Ollivander's with Ron, finally replacing Charlie's old broken wand.
+
+Hermione decides the best way to choose is by determining the minimum number of gold galleons needed to buy each non-evil wand of high power and age. Write a query to print the id, age, coins_needed, and power of the wands that Ron's interested in, sorted in order of descending power. If more than one wand has same power, sort the result in order of descending age.
+
+Input Format
+
+The following tables contain data on the wands in Ollivander's inventory:
+
+    Wands: The id is the id of the wand, code is the code of the wand, coins_needed is the total number of gold galleons needed to buy the wand, and power denotes the quality of the wand (the higher the power, the better the wand is).
+
+    Wands_Property: The code is the code of the wand, age is the age of the wand, and is_evil denotes whether the wand is good for the dark arts. If the value of is_evil is 0, it means that the wand is not evil. The mapping between code and age is one-one, meaning that if there are two pairs,
+
+(code1, age1)and (code2, age2), then code1 != code2 and age1 != age2.
+
+SELECT
+    w.id,
+    wp.age,
+    w.coins_needed,
+    w.power
+FROM
+    Wands w
+JOIN
+    Wands_Property wp ON wp.code = w.code
+WHERE
+    w.coins_needed = (
+        SELECT MIN(w2.coins_needed)
+        FROM Wands w2
+        JOIN Wands_Property wp2 ON w2.code = wp2.code
+        WHERE wp2.is_evil = 0 AND wp.age = wp2.age AND w.power = w2.power
+    )
+ORDER BY
+    w.power DESC, wp.age DESC;
+
+
+/*
+Enter your query here.
+Please append a semicolon ";" at the end of the query
+*/
+
+SELECT DISTINCT P.Name, C.Name FROM PROFESSOR P
+INNER JOIN SCHEDULE S ON S.PROFESSOR_ID = P.ID
+INNER JOIN COURSE C ON C.ID = S.COURSE_ID
+INNER JOIN DEPARTMENT D ON D.ID = C.DEPARTMENT_ID
+WHERE NOT C.DEPARTMENT_ID = P.DEPARTMENT_ID
+
+7. Julia asked her students to create some coding challenges. Write a query to print the hacker_id, name,
+and the total number of challenges created by each student. Sort your results by the total number of challenges in
+descending order. If more than one student created the same number of challenges, then sort the result by hacker_id.
+If more than one student created the same number of challenges and the count is less than the maximum number of
+challenges created, then exclude those students from the result.
+
+Input Format
+
+The following tables contain challenge data:
+
+    Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker.
+
+    Challenges: The challenge_id is the id of the challenge, and hacker_id is the id of the student who created the challenge.
+
+SELECT Hackers.hacker_id, Hackers.name, COUNT(Challenges.challenge_id) as total_challenges FROM Hackers
+INNER JOIN Challenges ON Challenges.hacker_id = Hackers.hacker_id
+GROUP BY Hackers.hacker_id, Hackers.name
+-- HAVING total_challenges = (SELECT MAX(challenge_count) FROM (SELECT COUNT(challenge_id) AS challenge_count FROM Challenges GROUP BY hacker_id) AS subquery)
+ORDER BY total_challenges DESC, Hackers.hacker_id
